@@ -16,16 +16,25 @@ Route::get('/', function()
 	return View::make('hello');
 });
 
-Route::get('user/{id}', function($id){
-	return "User #$id";
-})->where('id', '\d+');
+Route::get('users/{id}', function($id) {
+	$user = User::find($id);
+	return View::make('users.index')
+		->with('user', $user);
+});
 
 Route::get('users', function() {
-//	$users = User::all();
-//	foreach ($users as $user)
-	return "Users: " . User::find(1)->name ;
+	$users = User::all();
+	return View::make('users.index')
+		->with('users', $users);
 });
 
 Route::get('about', function() {
 	return View::make('about')->with('number_of_users', User::count());
+});
+
+Route::get('users/groups/{name}', function($name){
+	$group = Group::whereName($name)->with('users')->first();
+	return View::make('users.index')
+		->with('group', $group)
+		->with('users', $group->users);
 });

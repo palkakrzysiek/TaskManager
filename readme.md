@@ -22,6 +22,10 @@ seeding
 php artisan db:seed
 ```
 
+reseeding
+```
+php artisan migrate:refresh --seed
+```
 
 
 

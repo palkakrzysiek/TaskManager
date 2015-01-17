@@ -26,7 +26,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 	protected $fillable = array('name', 'surname');
 
-	public function breed() {
+	public function group() {
         return $this->belongsTo('Group');
     }
 }
