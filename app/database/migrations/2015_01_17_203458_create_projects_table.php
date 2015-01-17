@@ -13,7 +13,7 @@ class CreateProjectsTable extends Migration {
 	public function up()
 	{
 		Schema::create('projects', function($table) {
-			$table->inscrements('id');
+			$table->increments('id');
 			$table->string('id');
 			$table->dateTime('start_date');
 			$table->dateTime('deadline');
