@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Cats DB</title>
+    <title>E-Manager</title>
     <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
 </head>
 <body>

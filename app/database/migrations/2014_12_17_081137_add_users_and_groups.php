@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class AddCatsAndBreedsTable extends Migration {
+class AddUsersAndGroups extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,15 +12,17 @@ class AddCatsAndBreedsTable extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('cats', function($table) {
+		Schema::create('users', function($table) {
 			$table->increments('id');
 			$table->string('name');
-			$table->date('date_of_birth');
-			$table->integer('breed_id')->nullable();
+			$table->string('surname');
+			$table->string('password');
+			$table->string('remember_token');
+			$table->integer('group_id')->nullable();
 			$table->timestamps();
 
 		});
-		Schema::create('breeds', function(Blueprint $table)
+		Schema::create('groups', function(Blueprint $table)
 		{
 			$table->increments('id');
 			$table->string('name');
@@ -34,8 +36,7 @@ class AddCatsAndBreedsTable extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('cats');
-		Schema::drop('breeds');
+		//
 	}
 
 }

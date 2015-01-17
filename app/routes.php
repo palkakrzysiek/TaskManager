@@ -11,18 +11,21 @@
 |
 */
 
-Route::get('/', function() {
-	return Redirect::to('cats');
+Route::get('/', function()
+{
+	return View::make('hello');
 });
 
-Route::get('cats', function() {
-	return "All cats";
-});
-
-Route::get('cats/{id}', function($id) {
-	return "Cat #$id";
+Route::get('user/{id}', function($id){
+	return "User #$id";
 })->where('id', '\d+');
 
+Route::get('users', function() {
+//	$users = User::all();
+//	foreach ($users as $user)
+	return "Users: " . User::find(1)->name ;
+});
+
 Route::get('about', function() {
-	return View::make('about')->with('number_of_cats', 9000);
+	return View::make('about')->with('number_of_users', User::count());
 });
