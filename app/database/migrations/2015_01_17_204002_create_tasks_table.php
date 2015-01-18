@@ -14,7 +14,7 @@ class CreateTasksTable extends Migration {
 	{
 		Schema::create('tasks', function(Blueprint $table) {
 			$table->increments('id');
-			$table->integer('user_id')->nullable();
+			$table->integer('user_id')->nullable()->references('id')->on('users');
 			$table->string('description')->nullable();
 			$table->dateTime('start_date')->nullable();
 			$table->dateTime('deadline')->nullable();
