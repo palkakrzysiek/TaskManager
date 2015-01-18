@@ -14,7 +14,7 @@
 @section('content')
     @foreach($users as $user)
         <div class="user">
-            <a href="{{url('user/'.$user->id)}}">
+            <a href="{{url('users/'.$user->id)}}">
                 <strong> {{{$user->name}}} </strong> - {{{$user->group->name}}}
             </a>
         </div>

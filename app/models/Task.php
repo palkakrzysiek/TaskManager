@@ -2,7 +2,7 @@
 
 class Project extends Eloquent {
 
-    protected $table = 'projects';
+    protected $table = 'tasks';
 
     protected $fillable = array('description', 'startDate', 'deadline',
                                 'feedback', 'difficulty', 'timeEstimation');
