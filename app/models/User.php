@@ -41,11 +41,20 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 		return $this->hasMany('Task');
 	}
 
+	public function position() {
+		return $this->hasOne('Position');
+	}
+
 	public function responsibleForTask(Task $task) {
 		return $this->id == $task->owner;
 	}
 
 	public function canEditTask(Task $task) {
 		return $this->position_id == Position::getIdOfPosition('ceo') or $this->owns($task);
+	}
+
+	public function canEditProfile(User $user) {
+		$position = Position::find($user->position_id)->name;
+		return $this->id == $user->id or $position == 'ceo';
 	}
 }

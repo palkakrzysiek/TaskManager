@@ -10,6 +10,7 @@ class UsersTableSeeder extends Seeder {
     public function run() {
         DB::table('users')->insert(array(
             array('id' => 1,
+                'email' => 'jsmith@company.com',
                 'name' => "John",
                 'surname' => "Smith",
                 'password' => Hash::make('dupa.8'),
@@ -19,6 +20,7 @@ class UsersTableSeeder extends Seeder {
                 'created_at' => new DateTime(),
                 'updated_at' => new DateTime()),
             array('id' => 2,
+                'email' => 'sgriffin@company.com',
                 'name' => "Stevie",
                 'surname' => "Griffin",
                 'password' => Hash::make('K1llLois'),
@@ -28,6 +30,7 @@ class UsersTableSeeder extends Seeder {
                 'created_at' => new DateTime(),
                 'updated_at' => new DateTime()),
             array('id' => 3,
+                'email' => 'amalysz@company.com',
                 'name' => "Adam",
                 'surname' => "Małysz",
                 'password' => Hash::make('Oddac2=skoki'),

@@ -22,6 +22,11 @@ Route::get('/', function()
 		->with('number_of_users', User::count());
 });
 
+Route::get('about', function() {
+	return View::make('about')->with('number_of_users', User::count());
+});
+
+
 Route::get('users/{user}', function($user) {
 	return View::make('users.single')
 		->with('user', $user);
@@ -33,10 +38,6 @@ Route::get('users', function() {
 		->with('users', $users);
 });
 
-Route::get('about', function() {
-	return View::make('about')->with('number_of_users', User::count());
-});
-
 Route::get('users/groups/{name}', function($name){
 	$group = Group::whereName($name)->with('users')->first();
 	return View::make('users.index')
@@ -44,41 +45,50 @@ Route::get('users/groups/{name}', function($name){
 		->with('users', $group->users);
 });
 
-Route::get('users/create', function() {
-	$user = new User;
-	return View::make('users.edit')
-		->with('user', $user)
-		->with('method', 'post');
-});
+// Auth required
+Route::group(array('before'=>'auth'), function(){
 
-Route::get('users/{user}/edit', function($user) {
-	return View::make('users.edit')
-		->with('user', $user)
-		->with('method', 'put');
-});
+	Route::get('users/create', function () {
+		$user = new User;
+		return View::make('users.edit')
+			->with('user', $user)
+			->with('method', 'post');
+	});
 
-Route::get('users/{user}/delete', function($user) {
-	return View::make('users.edit')
-		->with('user', $user)
-		->with('method', 'delete');
-});
+	Route::get('users/{user}/edit', function ($user) {
+		return View::make('users.edit')
+			->with('user', $user)
+			->with('method', 'put');
+	});
 
-Route::post('users', function() {
-	$user = User::create(Input::all);
-	return Redirect::to('users/' . $user->id)
-		->with('message', "Successfully created page!");
-});
+	Route::get('users/{user}/delete', function ($user) {
+		return View::make('users.edit')
+			->with('user', $user)
+			->with('method', 'delete');
+	});
 
-Route::put('users/{user}', function(User $user) {
-	$user->update(Input::all());
-	return Redirect::to('users/' . $user->id)
-		->with('message', "Successfully updated page!");
-});
+	Route::post('users', function () {
+		$user = User::create(Input::all);
+		return Redirect::to('users/' . $user->id)
+			->with('message', "Successfully created page!");
+	});
 
-Route::delete('users/{user}', function(User $user) {
-	$user->delete();
-	return Redirect::to('users')
-		->with('message', "Successfully deleted page!");
+	Route::put('users/{user}', function (User $user) {
+		if ($user->canEditProfile(Auth::user())) {
+			$user->update(Input::all());
+			return Redirect::to('users/' . $user->id)
+				->with('message', "Successfully updated page!");
+		} else {
+			return Redirect::to('users/' . $user->id)
+				->with('message', "Unauthorized operation");
+		}
+	});
+
+	Route::delete('users/{user}', function (User $user) {
+		$user->delete();
+		return Redirect::to('users')
+			->with('message', "Successfully deleted page!");
+	});
 });
 
 View::composer('users.edit', function($view)
@@ -93,4 +103,22 @@ View::composer('users.edit', function($view)
 	$view->with('group_options', $group_options);
 });
 
+Route::get('login', function() {
+	return View::make('login');
+});
 
+Route::post('login', function(){
+	if(Auth::attempt(Input::only('email', 'password'))) {
+		return Redirect::intended('/');
+	} else {
+		return Redirect::back()
+			->withInput()
+			->with('error', "Invalid credentials");
+	}
+});
+
+Route::get('logout', function(){
+	Auth::logout();
+	return Redirect::to('/')
+		->with('message', 'You are now logged out');
+});
