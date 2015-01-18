@@ -22,4 +22,12 @@
             $user->group->name)}}
         @endif
     </p>
+    <h3>Tasks</h3>
+    @foreach($user->tasks as $task)
+        <div class="tasks">
+            <a href="{{url('tasks/'.$user->id)}}">
+                <strong> {{{$task->description}}} </strong> - {{{$user->group->name}}}
+            </a>
+        </div>
+    @endforeach
 @stop

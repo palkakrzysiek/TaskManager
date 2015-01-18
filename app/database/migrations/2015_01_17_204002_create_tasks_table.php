@@ -14,13 +14,13 @@ class CreateTasksTable extends Migration {
 	{
 		Schema::create('tasks', function(Blueprint $table) {
 			$table->increments('id');
-			$table->integer('group_id');
-			$table->string('description');
-			$table->dateTime('start_date');
-			$table->dateTime('deadline');
-			$table->string('feedback');
-			$table->integer('difficulty');
-			$table->integer('time_estimation'); // in hours
+			$table->integer('user_id')->nullable();
+			$table->string('description')->nullable();
+			$table->dateTime('start_date')->nullable();
+			$table->dateTime('deadline')->nullable();
+			$table->string('feedback')->nullable();
+			$table->integer('difficulty')->nullable();
+			$table->integer('time_estimation')->nullable(); // in hours
 			$table->timestamps();
 		});
 	}
@@ -32,7 +32,7 @@ class CreateTasksTable extends Migration {
 	 */
 	public function down()
 	{
-		//
+		Schema::drop('tasks');
 	}
 
 }

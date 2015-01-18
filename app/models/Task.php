@@ -1,15 +1,15 @@
 <?php
 
-class Project extends Eloquent {
+class Task extends Eloquent {
 
     protected $table = 'tasks';
 
     protected $fillable = array('description', 'startDate', 'deadline',
                                 'feedback', 'difficulty', 'timeEstimation');
 
-    public function group()
+    public function user()
     {
-        return $this->hasOne('group');
+        return $this->hasOne('User');
     }
 
 }
