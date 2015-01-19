@@ -24,7 +24,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	protected $hidden = array('password', 'remember_token');
 
 
-	protected $fillable = array('name', 'surname', 'position_id', 'group_id', 'specialities');
+	protected $fillable = array('password', 'name', 'surname', 'position_id', 'group_id', 'specialities');
 
 	public function getAuthIdentifier() {
 		return $this->getKey();
@@ -78,6 +78,10 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 	public function canEditProfile(User $targetUser) {
 		return $this->id == $targetUser->id or $this->getPositionName() == 'ceo';
+	}
+
+	public function canChangeProfilePass(User $targetUser) {
+		return $this->id == $targetUser->id;
 	}
 
 	public function canAddProfile() {

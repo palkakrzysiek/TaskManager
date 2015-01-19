@@ -1,26 +1,24 @@
 <?php
 
-Route::get('users/{user}', function($user) {
-    return View::make('users.single')
-        ->with('user', $user);
-});
-
-Route::get('users', function() {
-    $users = User::all();
-    return View::make('users.index')
-        ->with('users', $users);
-});
-
-Route::get('users/groups/{name}', function($name){
-    $group = Group::whereName($name)->with('users')->first();
-    return View::make('users.index')
-        ->with('group', $group)
-        ->with('users', $group->users);
-});
-
 // Auth required
 Route::group(array('before' => 'auth'), function () {
+    Route::get('users/{user}', function($user) {
+        return View::make('users.single')
+            ->with('user', $user);
+    });
 
+    Route::get('users', function() {
+        $users = User::all();//Company::find(Auth::user()->getCompanyId())->getUsers();
+        return View::make('users.index')
+            ->with('users', $users);
+    });
+
+    Route::get('users/groups/{name}', function($name){
+        $group = Group::whereName($name)->with('users')->first();
+        return View::make('users.index')
+            ->with('group', $group)
+            ->with('users', $group->users);
+    });
     Route::get('users/create', function () {
         $user = new User;
         return View::make('users.edit')
@@ -48,7 +46,19 @@ Route::group(array('before' => 'auth'), function () {
 
         Route::put('users/{user}', function (User $user) {
             if (Auth::user()->canEditProfile($user)) {
-                $user->update(Input::all());
+                //$user->update(Input::all());
+                $user->update(array(
+                    'name' => Input::get('name'),
+                    'surname' => Input::get('surname'),
+                    'specialities' => Input::get('specialities'),
+                    'group_id' => Input::get('group_id'),
+                    'position_id' => Input::get('position_id'),
+                    ));
+                if(Input::get('password') != '' and Auth::user()->canChangeProfilePass($user)) {
+                    $user->update(array(
+                        'password' => Hash::make(Input::get('password')),
+                    ));
+                }
                 return Redirect::to('users/' . $user->id)
                     ->with('message', "Successfully updated page!");
             } else {

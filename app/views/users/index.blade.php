@@ -15,6 +15,7 @@
 @stop
 @section('content')
     @foreach($users as $user)
+
         <div class="user">
             <a href="{{url('users/'.$user->id)}}">
                 <strong> {{{$user->name}}} {{{$user->surname}}} </strong> ({{{$user->getPositionFriendlyName()}}})

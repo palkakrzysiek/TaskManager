@@ -36,6 +36,10 @@
             {{Form::label('Position')}}
             {{Form::select('position_id', $position_options)}}
         </div>
+        <div class="form-group">
+            <label for="password">New password (if any)</label>
+            <input type="password" name="password" value="" title="New password">
+        </div>
         {{Form::submit("Save", array("class"=>"btn btn-default"))}}
         @else
             {{Form::submit("Delete", array("class"=>"btn btn-default"))}}

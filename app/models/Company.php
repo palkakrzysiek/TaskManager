@@ -17,11 +17,24 @@ class Company extends Eloquent {
         return $this->hasManyThrough('User', 'Group');
     }
 
+    public function getUsersIds() {
+        return DB::table('users')
+            ->join('groups', 'users.group_id', '=', 'groups.id')
+            ->join('companies', 'groups.company_id', '=', 'companies.id')
+            ->select('users.id')
+            ->where('companies.id', '=', $this->id)->get();
+    }
     public function getUsers() {
         return DB::table('users')
             ->join('groups', 'users.group_id', '=', 'groups.id')
             ->join('companies', 'groups.company_id', '=', 'companies.id')
-            ->select('users.id', 'companies.id')
+            ->select('users.id')
             ->where('companies.id', '=', $this->id)->get();
+
+        $users[] = User;
+        $counter = 0;
+        foreach(getUsersIds() as $user) {
+            $users[$counter++] = User::find($user->id);
+        }
     }
 }
