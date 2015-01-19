@@ -13,7 +13,7 @@
     Last edited: {{$user->updated_at}}
 @stop
 @section('content')
-    <p>Surname: {{$user->surname}} </p>
+    <p>Position: {{$user->getPositionFriendlyName()}} </p>
     <p>
         @if($user->group)
             Group:

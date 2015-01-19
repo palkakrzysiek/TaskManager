@@ -74,5 +74,12 @@ View::composer('users.edit', function($view)
     } else {
         $group_options = array(null, 'Unspecified');
     }
-    $view->with('group_options', $group_options);
+    $positions = position::all();
+    if(count($positions) > 0){
+        $position_options = array_combine($positions->lists('id'),
+            $positions->lists('name'));
+    } else {
+        $position_options = array(null, 'Unspecified');
+    }
+    $view->with('group_options', $group_options)->with('position_options', $position_options);
 });

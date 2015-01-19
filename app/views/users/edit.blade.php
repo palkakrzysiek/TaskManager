@@ -20,12 +20,21 @@
             {{Form::text('name')}}
         </div>
         <div class="form-group">
+            {{Form::label('Surname')}}
+            {{Form::text('surname')}}
+        </div>
+        <div class="form-group">
             {{Form::label('Group')}}
             {{Form::select('group_id', $group_options)}}
+        </div>
+        <div class="form-group">
+            {{Form::label('Position')}}
+            {{Form::select('position_id', $position_options)}}
         </div>
         {{Form::submit("Save", array("class"=>"btn btn-default"))}}
         @else
             {{Form::submit("Delete", array("class"=>"btn btn-default"))}}
         @endif
         {{Form::close()}}
+
 @stop
