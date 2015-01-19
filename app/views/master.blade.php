@@ -23,7 +23,14 @@
                             data-target="#bs-example-navbar-collapse-1">
                         <span class="sr-only">Toggle navigation</span>
                     </button>
-                    <a class="navbar-brand" href="/">EMangaer</a>
+                    <a class="navbar-brand" href="/">
+                        @if(Auth::check())
+                            {{{Auth::user()->getCompanyName()}}}
+                        @else
+                            EMangaer
+                        @endif
+
+                    </a>
                 </div>
 
                 <div class="collapse navbar-collapse">

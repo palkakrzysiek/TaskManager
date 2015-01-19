@@ -24,7 +24,7 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 	protected $hidden = array('password', 'remember_token');
 
 
-	protected $fillable = array('name', 'surname', 'position_id', 'group_id');
+	protected $fillable = array('name', 'surname', 'position_id', 'group_id', 'specialities');
 
 	public function getAuthIdentifier() {
 		return $this->getKey();
@@ -47,6 +47,21 @@ class User extends Eloquent implements UserInterface, RemindableInterface {
 
 	public function responsibleForTask(Task $task) {
 		return $this->id == $task->owner;
+	}
+
+	public function getCompanyId() {
+		return DB::table('users')
+			->join('groups', 'users.group_id', '=', 'groups.id')
+			->join('companies', 'groups.company_id', '=', 'companies.id')
+			->select('companies.id')
+			->where('users.id', '=', $this->id)->get()[0]->id;
+	}
+	public function getCompanyName() {
+		return DB::table('users')
+			->join('groups', 'users.group_id', '=', 'groups.id')
+			->join('companies', 'groups.company_id', '=', 'companies.id')
+			->select('companies.name')
+			->where('users.id', '=', $this->id)->get()[0]->name;
 	}
 
 	public function getPositionName() {

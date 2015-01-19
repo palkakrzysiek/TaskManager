@@ -1,6 +1,6 @@
 @extends('master')
 @section('header')
-    <a href="{{('/users/'.$user->id.'')}}">&larr; Cancel </a>
+    <a href="{{('../'.$user->id.'')}}">&larr; Cancel </a>
     <h2>
         @if($method == 'post')
             Add a new user
@@ -14,6 +14,7 @@
 @section('content')
     {{Form::model($user, array('method' => $method, 'url'=>
     'users/'.$user->id))}}
+    {{--Form::select('groupss[]', Group::get(array('id', 'name')), null, array('multiple'))--}}
     @unless($method == 'delete')
         <div class="form-group">
             {{Form::label('Name')}}
@@ -22,6 +23,10 @@
         <div class="form-group">
             {{Form::label('Surname')}}
             {{Form::text('surname')}}
+        </div>
+        <div class="form-group">
+            {{Form::label('Specialities')}}
+            {{Form::text('specialities')}}
         </div>
         <div class="form-group">
             {{Form::label('Group')}}

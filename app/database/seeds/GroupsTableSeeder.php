@@ -9,10 +9,11 @@
 class GroupsTableSeeder extends Seeder {
     public function run() {
         DB::table('groups')->insert(array(
-            array('id' => 1, 'name' => "Frontend"),
-            array('id'=>2, 'name'=>"Backend"),
-            array('id'=>3, 'name'=>"Calendar"),
-            array('id'=>4, 'name'=>"Dashboard"),
+            array('id' => 1, 'name' => "Frontend", 'company_id' => 2),
+            array('id'=>2, 'name'=>"Backend", 'company_id' => 2),
+            array('id'=>3, 'name'=>"Calendar", 'company_id' => 2),
+            array('id'=>4, 'name'=>"Dashboard", 'company_id' => 2),
+            array('id'=>5, 'name'=>"QA", 'company_id' => 1),
         ));
     }
 }

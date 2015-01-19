@@ -19,6 +19,7 @@ class AddUsersAndGroups extends Migration {
 			$table->string('surname');
 			$table->string('password');
 			$table->string('remember_token');
+			$table->string('specialities')->nullable();
 			$table->integer('group_id')->nullable()->references('id')->on('groups');
 			$table->integer('position_id')->nullable()	->references('id')->on('positions');
 			$table->timestamps();
@@ -28,6 +29,7 @@ class AddUsersAndGroups extends Migration {
 		{
 			$table->increments('id');
 			$table->string('name');
+			$table->integer('company_id')->nullable()	->references('id')->on('companies');
 		});
 	}
 
