@@ -1,9 +1,8 @@
 @extends('master')
 
 @section('header')
-    <a href="{{url('/')}}">Back to overview</a>
     <h2>
-        {{{$user->name}}}
+        {{{$user->name}}} {{{$user->surname}}}
     </h2>
     <a href="{{url('users/'.$user->id.'/edit')}}">
         <span class="glyphicon glyphicon-edit"></span> Edit

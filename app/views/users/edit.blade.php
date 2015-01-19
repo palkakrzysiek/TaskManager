@@ -1,6 +1,6 @@
 @extends('master')
 @section('header')
-    <a href="{{('users/'.$user->id.'')}}">&larr; Cancel </a>
+    <a href="{{('/users/'.$user->id.'')}}">&larr; Cancel </a>
     <h2>
         @if($method == 'post')
             Add a new user

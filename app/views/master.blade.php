@@ -12,13 +12,48 @@
             @if(Auth::check())
                 Logged in as
                 <strong>{{{Auth::user()->name}}} {{{Auth::user()->surname}}}</strong>
-                {{link_to('logout', 'Log Out')}}
-            @else
-                {{link_to('login', 'Log In')}}
             @endif
         </div>
-        @yield('header')
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                            data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                    </button>
+                    <a class="navbar-brand" href="#">EMangaer</a>
+                </div>
+
+                <div class="collapse navbar-collapse">
+                    @if(!Auth::check() and !Request::is('login*'))
+                        <a class="btn btn-default navbar-btn navbar-right" href="/login">Log In</a>
+                    @endif
+                    @if(Auth::check())
+                        <a class="btn btn-default navbar-btn navbar-right" href="/logout">Log Out</a>
+                    @endif
+                    <ul class="nav navbar-nav navbar-right">
+                        @if(Auth::check())
+                            <li role="presentation"
+                                @if(Request::is('users/'.Auth::user()->id))class="active"@endif>{{link_to('users/'.Auth::user()->id, 'Your profile')}}</li>
+                            <li role="presentation"
+                                @if(Request::is('users*') and !Request::is('users/'.Auth::user()->id))class="active"@endif>{{link_to('users', 'Employees')}}</li>
+                        @else
+                            <li role="presentation"
+                                @if(Request::is('users*'))class="active"@endif>{{link_to('users', 'Employees')}}</li>
+                        @endif
+                        <li role="presentation"
+                            @if(Request::is('tasks*'))class="active"@endif>{{link_to('tasks', 'Tasks')}}</li>
+                        <li role="presentation"
+                            @if(Request::is('projects*'))class="active"@endif>{{link_to('projects', 'Projects')}}</li>
+
+                    </ul>
+
+                </div>
+            </div>
+        </nav>
     </div>
+    @yield('header')
     @if(Session::has('message'))
         <div class="alert alert-success">
             {{Session::get('message')}}
