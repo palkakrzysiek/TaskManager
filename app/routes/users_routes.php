@@ -19,7 +19,7 @@ Route::get('users/groups/{name}', function($name){
 });
 
 // Auth required
-Route::group(array('before'=>'auth'), function(){
+Route::group(array('before' => 'auth'), function () {
 
     Route::get('users/create', function () {
         $user = new User;
@@ -39,28 +39,29 @@ Route::group(array('before'=>'auth'), function(){
             ->with('user', $user)
             ->with('method', 'delete');
     });
-
-    Route::post('users', function () {
-        $user = User::create(Input::all);
-        return Redirect::to('users/' . $user->id)
-            ->with('message', "Successfully created page!");
-    });
-
-    Route::put('users/{user}', function (User $user) {
-        if (Auth::user()->canEditProfile($user)) {
-            $user->update(Input::all());
+    Route::group(array('before' => 'csrf'), function () {
+        Route::post('users', function () {
+            $user = User::create(Input::all);
             return Redirect::to('users/' . $user->id)
-                ->with('message', "Successfully updated page!");
-        } else {
-            return Redirect::to('users/' . $user->id)
-                ->with('message', "Unauthorized operation");
-        }
-    });
+                ->with('message', "Successfully created page!");
+        });
 
-    Route::delete('users/{user}', function (User $user) {
-        $user->delete();
-        return Redirect::to('users')
-            ->with('message', "Successfully deleted page!");
+        Route::put('users/{user}', function (User $user) {
+            if (Auth::user()->canEditProfile($user)) {
+                $user->update(Input::all());
+                return Redirect::to('users/' . $user->id)
+                    ->with('message', "Successfully updated page!");
+            } else {
+                return Redirect::to('users/' . $user->id)
+                    ->with('message', "Unauthorized operation");
+            }
+        });
+
+        Route::delete('users/{user}', function (User $user) {
+            $user->delete();
+            return Redirect::to('users')
+                ->with('message', "Successfully deleted page!");
+        });
     });
 });
 

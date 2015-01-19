@@ -38,7 +38,7 @@ Route::get('login', function() {
 
 Route::post('login', function(){
 	if(Auth::attempt(Input::only('email', 'password'))) {
-		return Redirect::intended('/');
+		return Redirect::intended('/users/'.Auth::user()->id);
 	} else {
 		return Redirect::back()
 			->withInput()
@@ -46,8 +46,9 @@ Route::post('login', function(){
 	}
 });
 
-Route::get('logout', function(){
-	Auth::logout();
-	return Redirect::to('/')
-		->with('message', 'You are now logged out');
-});
+
+	Route::get('logout', array('before'=>'auth|csrf', function () {
+		Auth::logout();
+		return Redirect::to('/')
+			->with('message', 'You are now logged out');
+	}));
